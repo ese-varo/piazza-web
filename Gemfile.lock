@@ -116,6 +116,8 @@ GEM
       activesupport (>= 6.1)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
+    i18n-debug (1.2.0)
+      i18n (< 2)
     io-console (0.8.0)
     irb (1.15.1)
       pp (>= 0.6.0)
@@ -277,6 +279,7 @@ DEPENDENCIES
   cssbundling-rails
   debug
   dotenv-rails
+  i18n-debug
   jbuilder
   jsbundling-rails
   pg (~> 1.3)
