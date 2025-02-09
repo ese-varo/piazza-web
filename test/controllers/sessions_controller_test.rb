@@ -10,7 +10,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
       log_in(@user)
     }
 
-    assert_not_empty cookies[:app_session]
+    assert_not_empty session[:app_session]
     assert_redirected_to root_path
   end
 
@@ -35,5 +35,11 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_select ".notification",
       I18n.t("sessions.destroy.success")
+  end
+
+  test "cookies session is set for login with remember me enabled" do
+    log_in(@user, remember_me: "1")
+
+    assert_not_empty cookies[:app_session]
   end
 end

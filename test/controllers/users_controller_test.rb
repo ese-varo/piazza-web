@@ -1,7 +1,7 @@
 require "test_helper"
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
-  test "redirects to feed after uccessful sign up" do
+  test "redirects to feed after successful sign up" do
     get sign_up_path
     assert_response :ok
 
@@ -10,13 +10,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         user: {
           name: "John",
           email: "johndoe@example.com",
-          password: "password"
+          password: "password",
+          password_confirmation: "password"
         }
       }
     end
 
     assert_redirected_to root_path
-    assert_not_empty cookies[:app_session]
+    assert_not_empty session[:app_session]
 
     follow_redirect!
     assert_select ".notification.is-success",
