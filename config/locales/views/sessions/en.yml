@@ -2,6 +2,7 @@ en:
   sessions:
     new:
       title: Log In
+      remember_me: Remember me
       submit: Login
     create:
       success: You're logged in!

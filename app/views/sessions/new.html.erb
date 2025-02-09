@@ -22,6 +22,13 @@
         <%= form.password_field :password, class: "input" %>
       </div>
 
+      <div class="block">
+        <%= form.label :remember_me, class: "checkbox" do %>
+          <%= form.check_box :remember_me, class: "checkbox" %>
+          <%= t(".remember_me") %>
+        <% end %>
+      </div>
+
       <%= form.submit t(".submit"),
             class: "button is-primary is-large
               is-align-self-flex-end mb-3 mt-3" %>
