@@ -4,8 +4,10 @@ module User::Authentication
   included do
     has_secure_password
     validates :password,
+      on: [:create, :password_change],
       presence: true,
       length: { minimum: 8 }
+    validate :password_changed, on: :password_change
 
     has_many :app_sessions
   end
@@ -22,4 +24,12 @@ module User::Authentication
   rescue ActiveRecord::RecordNotFound
     nil
   end
+
+  private
+
+    def password_changed
+      if password.present? && BCrypt::Password.new(password_digest_was).is_password?(password)
+        errors.add(:password, :same_as_current)
+      end
+    end
 end

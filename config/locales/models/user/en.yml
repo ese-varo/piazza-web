@@ -6,5 +6,6 @@ en:
           attributes:
             password:
               too_short: must be at least 8 characters long
+              same_as_current: Must be different from current password.
             password_confirmation:
               confirmation: The passwords you entered doesn't match. Please try again
