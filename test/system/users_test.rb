@@ -71,4 +71,15 @@ class UsersTest < ApplicationSystemTestCase
     assert_selector "#current_user_name",
       text: "Jerry Seinfeld"
   end
+
+  test "existing user can logout" do
+    log_in(users(:jerry))
+    find(".navbar-item.has-dropdown").hover
+    click_on I18n.t("application.navbar.logout")
+
+    assert_current_path root_path
+    assert_selector ".notification",
+      text: I18n.t("sessions.destroy.success")
+    assert_no_selector "#current_user_name"
+  end
 end

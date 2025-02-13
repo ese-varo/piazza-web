@@ -6,8 +6,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 end
 
 class MobileSystemTestCase < ApplicationSystemTestCase
-  setup do
-    visit root_path
+  def visit_with_mobile_size(path)
+    visit path
     current_window.resize_to(375, 812)
   end
 
