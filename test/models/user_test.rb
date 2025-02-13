@@ -113,4 +113,19 @@ class UserTest < ActiveSupport::TestCase
 
     assert_not @user.authenticate_app_session(50, "token")
   end
+
+  test "validates password without password_change context" do
+    @user = users(:jerry)
+    @user.assign_attributes(password: "password")
+    assert @user.valid?
+  end
+
+  test "validates password with password_change context" do
+    @user = users(:jerry)
+    @user.assign_attributes(password: "password")
+    assert_not @user.valid?(:password_change)
+
+    @user.assign_attributes(password: "new_password")
+    assert @user.valid?(:password_change)
+  end
 end

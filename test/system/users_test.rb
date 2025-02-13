@@ -3,9 +3,7 @@ require "application_system_test_case"
 class UsersTest < ApplicationSystemTestCase
   test "new user can sign up" do
     visit root_path
-
     click_on I18n.t("application.navbar.sign_up")
-
     fill_in User.human_attribute_name(:name),
       with: "Newman"
     fill_in User.human_attribute_name(:email),
@@ -14,8 +12,8 @@ class UsersTest < ApplicationSystemTestCase
       with: "short"
     fill_in User.human_attribute_name(:password_confirmation),
       with: "short"
-
     click_on I18n.t("users.new.sign_up")
+
     assert_selector "p.is-danger",
       text: I18n.t("activerecord.errors.models.user.attributes.password.too_short")
 
@@ -33,15 +31,13 @@ class UsersTest < ApplicationSystemTestCase
 
   test "existing user can login" do
     visit root_path
-
     click_on I18n.t("application.navbar.login")
-
     fill_in User.human_attribute_name(:email),
       with: "jerry@example.com"
     fill_in User.human_attribute_name(:password),
       with: "wrong"
-
     click_button I18n.t("sessions.new.submit")
+
     assert_selector ".notification.is-danger",
       text: I18n.t("sessions.create.incorrect_details")
 
@@ -59,9 +55,7 @@ class UsersTest < ApplicationSystemTestCase
 
   test "can update name" do
     log_in(users(:jerry))
-
     visit profile_path
-
     fill_in User.human_attribute_name(:name),
       with: "Jerry Seinfeld"
     click_button I18n.t("users.show.save_profile")
@@ -70,6 +64,27 @@ class UsersTest < ApplicationSystemTestCase
       text: I18n.t("users.update.success")
     assert_selector "#current_user_name",
       text: "Jerry Seinfeld"
+  end
+
+  test "password change fails with ivalid current password" do
+    log_in(users(:jerry))
+    visit profile_path
+    fill_in "user_password_challenge", with: "wrong"
+    fill_in "user_password", with: "new_password"
+    click_button I18n.t("users.show.change_password_button")
+
+    assert_selector "#user_password_challenge ~ p.help.is-danger",
+      text: "is invalid"
+  end
+
+  test "can change password" do
+    log_in(users(:jerry))
+    visit profile_path
+    fill_in "user_password_challenge", with: "password"
+    fill_in "user_password", with: "new_password"
+    click_button I18n.t("users.show.change_password_button")
+    assert_selector "form .notification",
+      text: I18n.t("users.passwords.update.success")
   end
 
   test "existing user can logout" do
